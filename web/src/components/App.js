@@ -4,7 +4,7 @@ import Form from "./Form";
 import Header from "./Header";
 import RenderListEmployee from "./RenderListEmployee";
 import Footer from "./Footer";
-import { Link, Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   const [name, setName] = useState("");
@@ -15,137 +15,110 @@ function App() {
   const [newWage, setNewWage] = useState(0);
   const [employeeList, setEmployeeList] = useState([]);
 
-  // create new employee en database with endpoint CREATE
   const addEmployee = (ev) => {
     ev.preventDefault();
-    const bodyParams = {
-      name: name,
-      age: age,
-      country: country,
-      position: position,
-      wage: wage,
-    };
-    return fetch("/create", {
+    const bodyParams = { name, age, country, position, wage };
+
+    fetch("/create", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyParams),
     })
       .then((response) => response.json())
       .then(() => {
-        setEmployeeList([
-          ...employeeList,
-          {
-            name: name,
-            age: age,
-            country: country,
-            position: position,
-            wage: wage,
-          },
+        setEmployeeList((prevList) => [
+          ...prevList,
+          { name, age, country, position, wage },
         ]);
-      });
+      })
+      .catch((err) => console.error("Error adding employee:", err));
   };
 
-  //get all employees in database
   const getEmployees = (ev) => {
     ev.preventDefault();
-    return fetch("/employees")
+    fetch("/employees")
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setEmployeeList(data);
-      });
+      .then((data) => setEmployeeList(data))
+      .catch((err) => console.error("Error fetching employees:", err));
   };
 
-  //update employee Wage
   const updateEmployee = (id) => {
-    const bodyParams = {
-      wage: newWage,
-      id: id,
-    };
-    return fetch("/update", {
+    const bodyParams = { wage: newWage, id };
+
+    fetch("/update", {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyParams),
     })
       .then((response) => response.json())
       .then(() => {
-        setEmployeeList(
-          employeeList.map((val) => {
-            return val.id === id
-              ? {
-                id: val.id,
-                name: val.name,
-                country: val.country,
-                age: val.age,
-                position: val.position,
-                wage: newWage,
-              }
-              : val;
-          })
+        setEmployeeList((prevList) =>
+          prevList.map((val) =>
+            val.id === id
+              ? { ...val, wage: newWage }
+              : val
+          )
         );
-      });
+      })
+      .catch((err) => console.error("Error updating employee:", err));
   };
 
-  //delete employee from database
   const deleteEmployee = (id) => {
-    return fetch(`/employee/delete/${id}`, {
+    fetch(`/employee/delete/${id}`, {
       method: "DELETE",
-    }).then((response) => {
-      setEmployeeList(
-        employeeList.filter((val) => {
-          return val.id !== id;
-        })
-      );
-    });
+    })
+      .then(() => {
+        setEmployeeList((prevList) =>
+          prevList.filter((val) => val.id !== id)
+        );
+      })
+      .catch((err) => console.error("Error deleting employee:", err));
   };
 
-  //handle Input of form
   const handleValueInput = (value, id) => {
-    if (id === "name") {
-      setName(value);
-    } else if (id === "age") {
-      setAge(value);
-    } else if (id === "country") {
-      setCountry(value);
-    } else if (id === "position") {
-      setPosition(value);
-    } else if (id === "wage") {
-      setWage(value);
-    }
+    const handlers = {
+      name: setName,
+      age: setAge,
+      country: setCountry,
+      position: setPosition,
+      wage: setWage,
+    };
+    if (id in handlers) handlers[id](value);
   };
 
-  const handleValueUpdate = (ev) => {
-    const value = ev.currentTarget.value;
-    setNewWage(value);
-  };
+  const handleValueUpdate = (ev) => setNewWage(ev.currentTarget.value);
 
   return (
     <>
-      <Switch>
-        <Route path="/" exact>
-          <Header />
-          <Footer />
-        </Route>
-        <Route path="/employee-database">
-          <main>
-            <Form
-              handleValueInput={handleValueInput}
-              addEmployee={addEmployee}
-            />
-            <RenderListEmployee
-              employeeList={employeeList}
-              getEmployees={getEmployees}
-              handleValueUpdate={handleValueUpdate}
-              updateEmployee={updateEmployee}
-              deleteEmployee={deleteEmployee}
-            />
-          </main>
-        </Route>
-      </Switch>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Header />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/employee-database"
+          element={
+            <main>
+              <Form
+                handleValueInput={handleValueInput}
+                addEmployee={addEmployee}
+              />
+              <RenderListEmployee
+                employeeList={employeeList}
+                getEmployees={getEmployees}
+                handleValueUpdate={handleValueUpdate}
+                updateEmployee={updateEmployee}
+                deleteEmployee={deleteEmployee}
+              />
+            </main>
+          }
+        />
+      </Routes>
     </>
   );
 }
