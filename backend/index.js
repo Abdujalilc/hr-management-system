@@ -14,7 +14,7 @@ app.listen(serverPort, () => {
 });
 
 // Serve static files
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "react_build")));
 
 // Database setup
 const db = new Database("./database.db", { verbose: console.log });
