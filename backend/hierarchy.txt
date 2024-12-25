@@ -1,0 +1,18 @@
+- backend_extracted/
+  - .gitignore
+  - database.db
+  - index.js
+  - package.json
+  - package-lock.json
+  - react_build/
+    - asset-manifest.json
+    - favicon.ico
+    - index.html
+    - static/
+      - css/
+        - main.004f71a1.css
+        - main.004f71a1.css.map
+      - js/
+        - main.56325b67.js
+        - main.56325b67.js.LICENSE.txt
+        - main.56325b67.js.map
