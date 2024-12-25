@@ -1,0 +1,10 @@
+npm install -g vercel
+
+vercel login
+
+Vercel CLI 39.2.2
+? Log in to Vercel Continue with GitHub
+> Success! GitHub authentication complete for abdujalilc@gmail.com
+Congratulations! You are now logged in. In order to deploy something, run `vercel`.
+💡  Connect your Git Repositories to deploy every branch push automatically (https://vercel.link/git).
+
