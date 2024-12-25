@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Abdujalil!</h1>
-<h3 align="center">A passionate front-end developer from Uzbekistan, welcome to my github!</h3>
+<h3 align="center">A passionate developer from Uzbekistan, welcome to my github!</h3>
 
 ## About the project
 
