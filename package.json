@@ -1,0 +1,27 @@
+{
+  "name": "hr-management-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "publish": "cd web && npm run build && cd .. && rm -rf ./public ; mv web/build public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sararid/hr-management-system.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sararid/hr-management-system/issues"
+  },
+  "homepage": "https://github.com/Sararid/hr-management-system#readme",
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}
