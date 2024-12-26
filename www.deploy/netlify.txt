@@ -9,3 +9,14 @@ netlify env:list
 netlify dev
 netlify open
 netlify unlink
+
+
+https://hr-manage-test.netlify.app
+https://app.netlify.com/sites/hr-manage-test
+
+
+Build logs:         https://app.netlify.com/sites/hr-manage-test/deploys/676d558fd4b674dbbce2c3b7
+Function logs:      https://app.netlify.com/sites/hr-manage-test/logs/functions
+Edge function Logs: https://app.netlify.com/sites/hr-manage-test/logs/edge-functions
+Unique deploy URL:  https://676d558fd4b674dbbce2c3b7--hr-manage-test.netlify.app
+Website URL:        https://hr-manage-test.netlify.app

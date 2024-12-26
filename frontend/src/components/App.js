@@ -9,11 +9,6 @@ import { Routes, Route } from "react-router-dom";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 function App() {
-  useEffect(() => {
-    document.cookie = `_vercel_jwt=${process.env.REACT_APP_VERCEL_JWT}; path=/; SameSite=None; Secure`;
-  }, []);
-
-
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
   const [country, setCountry] = useState("");
@@ -30,8 +25,7 @@ function App() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(bodyParams),
-      credentials: "include",
+      body: JSON.stringify(bodyParams)
     })
       .then((response) => response.json())
       .then(() => {
@@ -43,17 +37,17 @@ function App() {
       .catch((err) => console.error("Error adding employee:", err));
   };
 
-  const getEmployees = (ev) => {
-    ev.preventDefault();
+  const getEmployees = () => {
     fetch(`${BASE_URL}/employees`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-      },
-      credentials: "include", // Ensures cookies are sent with the request
+      }
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        setEmployeeList(data);
+      })
       .catch((err) => console.error("Error fetching employees:", err));
   };
 
@@ -64,8 +58,7 @@ function App() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(bodyParams),
-      credentials: "include",
+      body: JSON.stringify(bodyParams)
     })
       .then((response) => response.json())
       .then(() => {
@@ -83,8 +76,7 @@ function App() {
   const deleteEmployee = (id) => {
 
     fetch(`${BASE_URL}/employee/delete/${id}`, {
-      method: "DELETE",
-      credentials: "include",
+      method: "DELETE"
     })
       .then(() => {
         setEmployeeList((prevList) =>
@@ -106,6 +98,10 @@ function App() {
   };
 
   const handleValueUpdate = (ev) => setNewWage(ev.currentTarget.value);
+
+  useEffect(() => {
+    getEmployees();
+  }, []);
 
   return (
     <>
