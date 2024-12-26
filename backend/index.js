@@ -1,48 +1,10 @@
 const express = require("express");
-const swaggerUi = require('swagger-ui-express');
 const cors = require("cors");
 const Database = require("better-sqlite3");
 const path = require("path");
 
 const app = express();
 
-const swaggerDocument = {
-  openapi: '3.0.0',
-  info: {
-    title: 'Simple API',
-    version: '1.0.0',
-    description: 'A simple API to demonstrate Swagger with Node.js',
-  },
-  paths: {
-    '/employees': {
-      get: {
-        summary: 'Get all employees',
-        responses: {
-          200: {
-            description: 'A list of employees',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'array',
-                  items: {
-                    type: 'object',
-                    properties: {
-                      id: { type: 'integer' },
-                      name: { type: 'string' },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-// Use Swagger UI
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true, // Allow cookies
@@ -115,7 +77,7 @@ app.delete("/employee/delete/:id", (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
+app.listen(serverPort, () => {
   console.log(`Server is running at http://localhost:${serverPort}`);
   console.log(`Swagger docs are available at http://localhost:${serverPort}/api-docs`);
 });
