@@ -115,6 +115,7 @@ app.delete("/employee/delete/:id", (req, res) => {
 });
 
 // Start the server
-app.listen(serverPort, () => {
-  console.log(`Server is running on port ${serverPort}`);
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${serverPort}`);
+  console.log(`Swagger docs are available at http://localhost:${serverPort}/api-docs`);
 });
