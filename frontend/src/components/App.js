@@ -1,14 +1,19 @@
+
 import "../styles/App.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "./Form";
 import Header from "./Header";
 import RenderListEmployee from "./RenderListEmployee";
 import Footer from "./Footer";
 import { Routes, Route } from "react-router-dom";
-
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 function App() {
+  useEffect(() => {
+    document.cookie = `_vercel_jwt=${process.env.REACT_APP_VERCEL_JWT}; path=/; SameSite=None; Secure`;
+  }, []);
+
+
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
   const [country, setCountry] = useState("");
@@ -20,11 +25,13 @@ function App() {
   const addEmployee = (ev) => {
     ev.preventDefault();
     const bodyParams = { name, age, country, position, wage };
-
     fetch(`${BASE_URL}/create`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(bodyParams),
+      credentials: "include",
     })
       .then((response) => response.json())
       .then(() => {
@@ -38,19 +45,27 @@ function App() {
 
   const getEmployees = (ev) => {
     ev.preventDefault();
-    fetch(`${BASE_URL}/employees`)
+    fetch(`${BASE_URL}/employees`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include", // Ensures cookies are sent with the request
+    })
       .then((response) => response.json())
-      .then((data) => setEmployeeList(data))
+      .then((data) => console.log(data))
       .catch((err) => console.error("Error fetching employees:", err));
   };
 
   const updateEmployee = (id) => {
     const bodyParams = { wage: newWage, id };
-
     fetch(`${BASE_URL}/update`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(bodyParams),
+      credentials: "include",
     })
       .then((response) => response.json())
       .then(() => {
@@ -66,8 +81,10 @@ function App() {
   };
 
   const deleteEmployee = (id) => {
+
     fetch(`${BASE_URL}/employee/delete/${id}`, {
       method: "DELETE",
+      credentials: "include",
     })
       .then(() => {
         setEmployeeList((prevList) =>
