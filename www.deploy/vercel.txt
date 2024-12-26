@@ -1,0 +1,15 @@
+------------------vercel------------------
+npm install -g vercel
+vercel login
+vercel
+vercel alias <deployment-url> <custom-domain>
+vercel projects ls
+vercel env add
+vercel env ls
+vercel env pull
+vercel logs <deployment-url>
+vercel remove <deployment-url>
+vercel link
+vercel dev
+vercel unlink
+vercel inspect <deployment-url>

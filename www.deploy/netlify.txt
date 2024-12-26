@@ -1,0 +1,11 @@
+npm install -g netlify-cli
+netlify login
+netlify deploy
+netlify deploy --prod
+netlify link
+netlify deploy:list
+netlify env:set VAR_NAME value
+netlify env:list
+netlify dev
+netlify open
+netlify unlink

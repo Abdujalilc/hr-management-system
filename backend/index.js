@@ -9,14 +9,6 @@ app.use(express.json({ limit: "50mb" }));
 
 const serverPort = process.env.PORT || 3001;
 
-// Serve React static files
-app.use(express.static(path.join(__dirname, "react_build")));
-
-// Fallback for React routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "react_build", "index.html"));
-});
-
 // Database setup
 const db = new Database("./database.db", { verbose: console.log });
 

@@ -6,6 +6,8 @@ import RenderListEmployee from "./RenderListEmployee";
 import Footer from "./Footer";
 import { Routes, Route } from "react-router-dom";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 function App() {
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
@@ -19,7 +21,7 @@ function App() {
     ev.preventDefault();
     const bodyParams = { name, age, country, position, wage };
 
-    fetch("/create", {
+    fetch(`${BASE_URL}/create`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyParams),
@@ -36,7 +38,7 @@ function App() {
 
   const getEmployees = (ev) => {
     ev.preventDefault();
-    fetch("/employees")
+    fetch(`${BASE_URL}/employees`)
       .then((response) => response.json())
       .then((data) => setEmployeeList(data))
       .catch((err) => console.error("Error fetching employees:", err));
@@ -45,7 +47,7 @@ function App() {
   const updateEmployee = (id) => {
     const bodyParams = { wage: newWage, id };
 
-    fetch("/update", {
+    fetch(`${BASE_URL}/update`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyParams),
@@ -64,7 +66,7 @@ function App() {
   };
 
   const deleteEmployee = (id) => {
-    fetch(`/employee/delete/${id}`, {
+    fetch(`${BASE_URL}/employee/delete/${id}`, {
       method: "DELETE",
     })
       .then(() => {
