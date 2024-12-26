@@ -1,16 +1,62 @@
 const express = require("express");
+const swaggerUi = require('swagger-ui-express');
 const cors = require("cors");
 const Database = require("better-sqlite3");
 const path = require("path");
 
 const app = express();
-app.use(cors());
+
+const swaggerDocument = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Simple API',
+    version: '1.0.0',
+    description: 'A simple API to demonstrate Swagger with Node.js',
+  },
+  paths: {
+    '/employees': {
+      get: {
+        summary: 'Get all employees',
+        responses: {
+          200: {
+            description: 'A list of employees',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      id: { type: 'integer' },
+                      name: { type: 'string' },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+// Use Swagger UI
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true, // Allow cookies
+  methods: ['GET', 'POST', 'OPTIONS']
+}));
+
+app.options('*', cors()); // Enable preflight requests
+
 app.use(express.json({ limit: "50mb" }));
 
 const serverPort = process.env.PORT || 3001;
 
 // Database setup
-const db = new Database("./database.db", { verbose: console.log });
+const db = new Database(path.join(__dirname, "database.db"), { verbose: console.log });
 
 // Fetch all employees
 app.get("/employees", (req, res) => {

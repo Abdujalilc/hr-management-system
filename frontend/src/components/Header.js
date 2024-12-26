@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import video from "../video/video.mp4"
+//import video from "../video/video.mp4"
 const Header = () => {
     return (
         <header className="header">
@@ -14,7 +14,7 @@ const Header = () => {
                 </div>
                 <div>
                     <video width="500" height="250" controls>
-                        <source src={video} type="video/mp4" />
+                        {/*<source src={video} type="video/mp4" />*/}
                     </video>
                 </div>
             </div>
